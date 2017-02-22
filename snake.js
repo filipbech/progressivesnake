@@ -217,4 +217,4 @@ class Game {
 	}
 }
 
-const game = new Game(30,30);
+const thegame = new Game(30,30);
