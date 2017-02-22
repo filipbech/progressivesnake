@@ -1,6 +1,4 @@
 class Game {
-
-
 	createAndAppendElement() {
 		let ele = document.createElement('div');
 		ele.className = 'tile';
@@ -26,18 +24,24 @@ class Game {
 		}).length;
 	}
 
+	die(reason) {
+		this.gameover.style.display = 'flex';
+		this.button.focus();
+		this.reason.innerHTML = reason;
+	}
+
 	detectColision(newHead) {
 		const selfColision = this.isInSnake(newHead);
 
 		if(selfColision) {
-			alert('you died by hitting yourself');
+			this.die('you died by hitting yourself');
 			return true;
 		}
 
 		const wallColisition = newHead.row < 0 || newHead.row > this.rows.length-1 || newHead.col < 0 || newHead.col > this.rows[0].length-1;
 
 		if(wallColisition) {
-			alert('you died by hitting the wall');
+			this.die('you died by hitting a wall');
 			return true;
 		}
 	}
@@ -79,7 +83,6 @@ class Game {
 	}
 
 	eatFood() {
-		this.rows[this.food.row][this.food.col].classList.remove('food');
 		this.score++;
 
 		if (this.score % this.nextLevel === 0) {
@@ -91,6 +94,9 @@ class Game {
 	}
 
 	generateNewFood() {
+		if(this.food) {
+			this.rows[this.food.row][this.food.col].classList.remove('food');
+		}
 		let newFood = this.getRandomPosition();
 
 		while (this.isInSnake(newFood)) {
@@ -139,24 +145,75 @@ class Game {
 		}
 	}
 
-	constructor(numberOfRows, numberOfCols) {
-		this.nextLevel = 10;
-		this.speed = 150; //frame-duration
-		this.container = document.getElementById('game');
-		this.setupTiles(numberOfRows, numberOfCols);
+	reStart() {
+		this.gameover.style.display = 'none';
+		this.rows.forEach(row => {
+			row.forEach(col=> {
+				col.classList.remove('snake');
+			})
+		});
+
+		this.startGame();
+	}
+
+
+	startGame() {
+		this.speed = this.originalSpeed;
 		this.direction = 'right';
 		this.score = 0;
+		this.updateScore();
+
+		this.buildSnake(3);
+		this.generateNewFood();
+		this.calculateFrame();
+	}
+
+
+	listenForTouch(ev) {
+		const first = {x:ev.touches[0].clientX, y:ev.touches[0].clientY};
+		function end(ev) {
+			const last = {x:ev.changedTouches[0].clientX, y:ev.changedTouches[0].clientY};
+
+			if(Math.abs(first.x-last.x)>Math.abs(first.y-last.y)) {
+				if (first.x > last.x) {
+					this.direction = 'left';
+				} else {
+					this.direction = 'right';
+				}
+			} else {
+				if (first.y > last.y) {
+					this.direction = 'up';
+				} else {
+					this.direction = 'down';
+				}
+			}
+
+			window.removeEventListener('touchend', end.bind(this));
+		}
+		window.addEventListener('touchend', end.bind(this));
+
+	}
+
+	constructor(numberOfRows, numberOfCols) {
+		this.nextLevel = 10;
+		this.originalSpeed = 150; //frame-duration
+		this.container = document.getElementById('game');
+		this.gameover = this.container.querySelector('.game-over');
+		this.reason = this.gameover.querySelector('#reason');
+		this.button = this.gameover.querySelector('#play-again');
+		this.button.addEventListener('click', this.reStart.bind(this));
+
+		this.setupTiles(numberOfRows, numberOfCols);
 		this.scoreBoard = document.createElement('div');
 		this.scoreBoard.className = 'scoreboard';
 		this.container.appendChild(this.scoreBoard);
 		
-		this.buildSnake(3);
-
 		window.addEventListener('keyup', this.setDirection.bind(this));
-		this.generateNewFood();
 
-		//start game by making the first frane
-		this.calculateFrame();
+
+		window.addEventListener('touchstart', this.listenForTouch.bind(this));
+
+		this.startGame();
 	}
 }
 

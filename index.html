@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv=X-UA-Compatible content="IE=edge">
 	<meta name=description content="Progressive online snake game - works offline">
-	<meta name=viewport content="width=device-width, initial-scale=1">
+	<meta name=viewport content="width=340">
 	<link rel=canonical href="https://progressivesnake.com/">
 	<link rel=manifest href=manifest.json>
 	<meta name=mobile-web-app-capable content=yes>
@@ -34,8 +34,17 @@
 </head>
 <body>
 	<h1>Progressive Snake</h1>
-	<p>more useful than an air horn... </p>
-	<div id="game"></div>
+	<p>... more useful than an air horn <!-- nothing but ❤️ to @paul_kinlan --> </p> 
+	<div id="game">
+		<div class="game-over">
+			<div class="content">
+				<h2>Game Over</h2>
+				<p id="reason"></p>
+				<button id="play-again">Play again</button>
+			</div>
+		</div>
+	</div>
+	<p class="footer">This was build by <a href="https://twitter.com/filipbech">@filipbech</a>. Just for the fun of it. Works offline with no install (if your browser is cool and stuff). You can find the source and submit a pull request on this <a href="https://github.com/filipbech/progressivesnake">github-repo</a>. Free SSL-hosting by Firebase hosting - FTW! </p>
 	<script src="snake.js"></script>
 
 	<script>
