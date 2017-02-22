@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Snake</title>
+
+	<style>
+		#game {
+			width:300px;
+			height:300px;
+			display:flex;
+			flex-wrap: wrap;
+			border:5px solid #000;
+			position:relative;
+		}
+		.tile {
+			width:10px;
+			height:10px;
+		}
+		.tile.food {
+			background:blue;
+		}
+		.tile.snake {
+			background:black;
+		}
+		.scoreboard {
+			position:absolute;
+			top:10px;
+			right:10px;
+			opacity:0.2;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="game"></div>
+	<script src="snake.js"></script>	
+</body>
+</html>
