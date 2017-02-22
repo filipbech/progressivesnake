@@ -2,38 +2,46 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv=X-UA-Compatible content="IE=edge">
+	<meta name=description content="Progressive online snake game - works offline">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<link rel=canonical href="https://progressivesnake.com/">
+	<link rel=manifest href=manifest.json>
+	<meta name=mobile-web-app-capable content=yes>
+	<meta name=apple-mobile-web-app-capable content=yes>
+	<meta name=application-name content="Snake">
+	<meta name=apple-mobile-web-app-status-bar-style content=black>
+	<meta name=apple-mobile-web-app-title content="Snake">
+	<link rel=icon sizes=192x192 href=/images/snake_192.png>
+	<link rel=apple-touch-icon href=/images/snake_192.png>
+	<meta name=msapplication-TileImage content=/images/snake_144.png>
+	<meta name=msapplication-TileColor content=#FFFFFF>
+	<meta name=theme-color content=#0000FF>
+	<meta property=og:title content="Snake">
+	<meta property=og:type content=website>
+	<meta property=og:image content=https://progressivesnake.com/images/snake_192.png>
+	<meta property=og:url content="https://progressivesnake.com/">
+	<meta property=og:description content="Progressive online snake game - works offline">
+	<meta name=twitter:card content=summary>
+	<meta name=twitter:url content="https://progressivesnake.com/'">
+	<meta name=twitter:title content="Snake">
+	<meta name=twitter:description content="Progressive online snake game - works offline">
+	<meta name=twitter:image content=https://progressivesnake.com/images/snake_192.png>
+	<meta name=twitter:creator content=@filipbech>
 	<title>Snake</title>
 
-	<style>
-		#game {
-			width:300px;
-			height:300px;
-			display:flex;
-			flex-wrap: wrap;
-			border:5px solid #000;
-			position:relative;
-		}
-		.tile {
-			width:10px;
-			height:10px;
-		}
-		.tile.food {
-			background:blue;
-		}
-		.tile.snake {
-			background:black;
-		}
-		.scoreboard {
-			position:absolute;
-			top:10px;
-			right:10px;
-			opacity:0.2;
-		}
-
-	</style>
+	<link rel="stylesheet" href="snake.css">
 </head>
 <body>
+	<h1>Progressive Snake</h1>
+	<p>more useful than an air horn... </p>
 	<div id="game"></div>
-	<script src="snake.js"></script>	
+	<script src="snake.js"></script>
+
+	<script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/sw.js', { scope: '/' });
+		}
+	</script>	
 </body>
 </html>
