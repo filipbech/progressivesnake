@@ -218,3 +218,24 @@ class Game {
 }
 
 const thegame = new Game(30,30);
+
+
+// Disabling double tab to zoom on iOS
+// 
+// http://stackoverflow.com/questions/39390817/zoom-issue-in-iphone-for-ios-10
+
+if(navigator.userAgent.indexOf('iPhone')>-1) {
+	document.body.classList.add('iphone');
+	var mylatesttap = new Date().getTime();
+	document.body.addEventListener('touchstart', event => {
+		var now = new Date().getTime();
+		var timesince = now - mylatesttap;
+		if((timesince < 500) && (timesince > 0)){
+			event.preventDefault();
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+		}
+		mylatesttap = new Date().getTime();
+	});
+}
+

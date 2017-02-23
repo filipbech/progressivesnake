@@ -3,6 +3,10 @@ body {
 	width:300px;
 	font-family: Arial, Helvetica, sans-serif;
 }
+body.iphone {
+	position:fixed;
+	height:100vh;
+}
 h1, h2, p {
 	margin:0 0 10px;
 }
