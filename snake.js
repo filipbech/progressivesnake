@@ -171,7 +171,8 @@ class Game {
 
 	listenForTouch(ev) {
 		const first = {x:ev.touches[0].clientX, y:ev.touches[0].clientY};
-		function end(ev) {
+
+		const end = function end(ev) {
 			const last = {x:ev.changedTouches[0].clientX, y:ev.changedTouches[0].clientY};
 
 			if(Math.abs(first.x-last.x)>Math.abs(first.y-last.y)) {
@@ -188,9 +189,9 @@ class Game {
 				}
 			}
 
-			window.removeEventListener('touchend', end.bind(this));
-		}
-		window.addEventListener('touchend', end.bind(this));
+			window.removeEventListener('touchend', end);
+		}.bind(this);
+		window.addEventListener('touchend', end);
 
 	}
 
@@ -224,8 +225,7 @@ const thegame = new Game(30,30);
 // 
 // http://stackoverflow.com/questions/39390817/zoom-issue-in-iphone-for-ios-10
 
-if(navigator.userAgent.indexOf('iPhone')>-1) {
-	document.body.classList.add('iphone');
+if(navigator.userAgent.match(/iPhone|iPad/)>-1) {
 	var mylatesttap = new Date().getTime();
 	document.body.addEventListener('touchstart', event => {
 		var now = new Date().getTime();

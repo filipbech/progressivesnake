@@ -1,5 +1,5 @@
 const CACHENAMES = {
-	CODE: 'v1'
+	CODE: 'v1.1'
 };
 
 self.addEventListener('install', event => {
@@ -8,8 +8,7 @@ self.addEventListener('install', event => {
 			.then(cache => {
 				return cache.addAll([
 					'/',
-					'/snake.js',
-					'/snake.css'
+					'/snake.js'
 				])
 				.then(() => self.skipWaiting());
 			})
