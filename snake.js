@@ -34,14 +34,14 @@ class Game {
 		const selfColision = this.isInSnake(newHead);
 
 		if(selfColision) {
-			this.die('you died by hitting yourself');
+			this.die('You died by hitting yourself...');
 			return true;
 		}
 
 		const wallColisition = newHead.row < 0 || newHead.row > this.rows.length-1 || newHead.col < 0 || newHead.col > this.rows[0].length-1;
 
 		if(wallColisition) {
-			this.die('you died by hitting a wall');
+			this.die('You died by hitting a wall...');
 			return true;
 		}
 	}
