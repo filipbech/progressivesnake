@@ -1,120 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv=X-UA-Compatible content="IE=edge">
-	<meta name=description content="Progressive online snake game - works offline">
-	<meta name=viewport content="width=device-width,user-scalable=no">
-	<link rel=canonical href="https://progressivesnake.com/">
-	<link rel=manifest href=manifest.json>
-	<meta name=mobile-web-app-capable content=yes>
-	<meta name=apple-mobile-web-app-capable content=yes>
-	<meta name=application-name content="Snake">
-	<meta name=apple-mobile-web-app-status-bar-style content=black>
-	<meta name=apple-mobile-web-app-title content="Snake">
-	<link rel=icon sizes=192x192 href=/images/snake_192.png>
-	<link rel=apple-touch-icon href=/images/snake_192.png>
-	<meta name=msapplication-TileImage content=/images/snake_144.png>
-	<meta name=msapplication-TileColor content=#FFFFFF>
-	<meta name=theme-color content=#0000FF>
-	<meta property=og:title content="Snake">
-	<meta property=og:type content=website>
-	<meta property=og:image content=https://progressivesnake.com/images/snake_192.png>
-	<meta property=og:url content="https://progressivesnake.com/">
-	<meta property=og:description content="Progressive online snake game - works offline">
-	<meta name=twitter:card content=summary>
-	<meta name=twitter:url content="https://progressivesnake.com/'">
-	<meta name=twitter:title content="Snake">
-	<meta name=twitter:description content="Progressive online snake game - works offline">
-	<meta name=twitter:image content=https://progressivesnake.com/images/snake_192.png>
-	<meta name=twitter:creator content=@filipbech>
-	<title>Snake</title>
-	<style>
-		html {
-			overflow:hidden;
-			height:100vh;
-		}
-		body {
-			margin:10px;
-			font-family: Arial, Helvetica, sans-serif;
-			position:fixed;
-			min-height:100vh;
-		}
-		h1, h2, p {
-			margin:0 0 10px;
-		}
-		#game {
-			display:flex;
-			flex-wrap: wrap;
-			border:5px solid #000;
-			position:relative;
-			margin-bottom:10px;
-			max-width:80vh;
-		}
-		.tile {
-			flex:1 0 3.3333%;
-		}
-		.tile:before {
-			content:'';
-			width:100%;
-			padding-top:100%;
-			display:block;
-		}
-		.tile.food {
-			background:blue;
-		}
-		.tile.snake {
-			background:black;
-		}
-		.scoreboard {
-			position:absolute;
-			top:10px;
-			right:10px;
-			opacity:0.2;
-		}
+<meta charset=utf-8>
+<meta http-equiv=X-UA-Compatible content="IE=edge">
+<meta name="description" content="A simple progressive snake">
+<meta name="viewport" content="width=device-width,user-scalable=no">
 
-		.footer {
-			font-size:11px;
-			color:#666;
-		}
+<link rel="manifest" href="/manifest.json">
 
-		.game-over {
-			position:absolute;
-			background-color:rgb(255,0,0);
-			width:100%;
-			height:100%;
-			display:flex;
-			justify-content:  center;
-			align-items: center;
-			display:none;
-			text-align: center;
-		}
-		.content {
-			width:200px;
-			padding:10px;
-			background:#fff;
-		}
-	</style>
+<link rel="icon" sizes="192x192" href="/img/snake_192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Snake">
+
+<meta name="apple-mobile-web-app-title" content="Snake">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon sizes=144x144" href="/img/snake_192.png">
+
+<meta name="msapplication-tooltip" content="A simple progressive snake">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="/img/snake_144.png">
+
+<link rel="shortcut icon" type="image/png" href="/favicon.ico">
+<meta name="theme-color" content="#000000">
+
+<title>Snake</title>
+
+<style type="text/css">
+
+/* page */
+* {
+  margin: 0; padding: 0;
+  text-decoration: none;
+  border: none;
+  font-family: arial, sans-serif;
+  font-size: 1em;
+  color: #000;
+}
+html, body, #global, table {
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden; /* fix pull-to-refresh */
+}
+#global {
+  position: relative;
+  background: #333;
+}
+#a1, #a2, #a3 {
+  width: 100%;
+}
+#a1, #a3 {
+  height: auto;
+}
+
+/* game */
+h1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 10px;
+  text-indent: 10px;
+  color: #ddd;
+  opacity: 0.5;
+}	
+#game {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  background: #fefefe;
+  border: 5px solid #000;
+}
+.tile {
+  flex: 1 0 3.3333%;
+}
+.tile:before {
+  content: '';
+  width: 100%;
+  padding-top: 100%;
+  display: block;
+}
+.tile.food {
+  background: #999;
+}
+.tile.snake {
+  background: #000;
+}
+.scoreboard:before {
+  content: "Score: ";
+}
+.scoreboard {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-top: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #ddd;
+  opacity: 0.5;
+}
+.game-over {
+  position: absolute;
+  display: none;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #666;
+}
+.content {
+  background: #fefefe;
+}
+h2 {
+  padding-top: 10px;
+  font-size: 1.1em;
+}
+#reason {
+  padding-bottom: 10px;
+  font-size: 0.8em;
+}
+#button {
+  padding-bottom: 10px;
+}
+button {
+  margin-top: 10px;
+  font-size: 1em;
+  padding: 8px 15px;
+  color: #fff;
+  text-shadow: 1px 1px 3px #999;
+  background: linear-gradient(to bottom, #666, #888);
+}
+button:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+button:focus {outline:0;}
+#game,
+.game-over,
+.content {
+  width: 650px; /* size */
+}
+
+/* mobile */
+@media only screen and (max-width: 480px) {
+  /* game */
+  #game,
+  .game-over,
+  .content {
+    width: 300px; /* size */
+  }
+  h1,
+  .scoreboard {
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+  }
+  h1 {
+    /*left: 10px;
+    padding: 0;*/
+    display: none;
+  }
+  .scoreboard {
+    padding: 0;
+    text-indent: 10px;
+  }
+  .game-over {
+    transform: rotate(90deg);
+  }
+}
+</style>
 </head>
 <body>
-	<h1>Progressive Snake</h1>
-	<p>... more useful than an air horn <!-- nothing but ❤️ to @paul_kinlan --> </p> 
-	<div id="game">
-		<div class="game-over">
-			<div class="content">
-				<h2>Game Over</h2>
-				<p id="reason"></p>
-				<button id="play-again">Play again</button>
-			</div>
-		</div>
-	</div>
-	<p class="footer">This was build by <a href="https://twitter.com/filipbech">@filipbech</a>. Just for the fun of it. Works offline with no install (if your browser is cool and stuff). You can find the source and submit a pull request on this <a href="https://github.com/filipbech/progressivesnake">github-repo</a>. Free SSL-hosting by <a href="https://firebase.google.com/">Firebase</a> hosting - FTW! </p>
-
-	<script src="snake.js"></script>
-	<script>
-		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('/sw.js', { scope: '/' });
-		}
-	</script>	
+  <div id="global">
+    <h1>Snake</h1>
+    <table cellpadding="0" cellspacing="0">
+      <tr id="a1"><td>&nbsp;</td></tr>
+      <tr id="a2"><td>
+        <div id="game">
+          <div class="game-over">
+            <div class="content">
+              <h2>Game Over</h2>
+              <p id="reason"></p>
+              <p id="button"><button id="play-again">Play again</button></p>
+            </div>
+          </div>
+        </div>
+      </td></tr>
+      <tr id="a3"><td>&nbsp;</td></tr>
+    </table>
+  </div>
+  <script type="text/javascript" src="snake.js"></script>
+	<script type="text/javascript">
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' });
+    }
+	</script>
 </body>
 </html>
