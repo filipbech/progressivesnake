@@ -1,7 +1,7 @@
 ## Progressivesnake
 
-- Initial realase
+- Initial relaase
 @filipbech
 
-- New realease
+- New release
 @eauland
