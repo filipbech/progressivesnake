@@ -114,20 +114,29 @@ class Game {
 			col: Math.floor(Math.random()*this.rows[0].length)
 		};
 	}
-
-	setDirection(event) {
+	handleKeyup(event) {
 		if (event.which === 38) {
-			this.direction = 'up';
+			this.setDirection('up');
 		}
 		if (event.which === 37) {
-			this.direction = 'left';
+			this.setDirection('left');
 		}
 		if (event.which === 40) {
-			this.direction = 'down';
+			this.setDirection('down');
 		}
 		if (event.which === 39) {
-			this.direction = 'right';
+			this.setDirection('right');
 		}
+	}
+
+	setDirection(direction) {
+		if((this.direction === "left" && direction === "right") ||
+		(this.direction === "right" && direction === "left") ||
+		(this.direction === "up" && direction === "down") ||
+		(this.direction === "down" && direction === "up")) {
+			return;
+		}
+		this.direction = direction;
 	}
 
 	buildSnake(startLength) {
@@ -159,7 +168,7 @@ class Game {
 
 	startGame() {
 		this.speed = this.originalSpeed;
-		this.direction = 'right';
+		this.setDirection('right');
 		this.score = 0;
 		this.updateScore();
 
@@ -177,15 +186,15 @@ class Game {
 
 			if(Math.abs(first.x-last.x)>Math.abs(first.y-last.y)) {
 				if (first.x > last.x) {
-					this.direction = 'left';
+					this.setDirection('left');
 				} else {
-					this.direction = 'right';
+					this.setDirection('right');
 				}
 			} else {
 				if (first.y > last.y) {
-					this.direction = 'up';
+					this.setDirection('up');
 				} else {
-					this.direction = 'down';
+					this.setDirection('down');
 				}
 			}
 
@@ -208,8 +217,9 @@ class Game {
 		this.scoreBoard = document.createElement('div');
 		this.scoreBoard.className = 'scoreboard';
 		this.container.appendChild(this.scoreBoard);
+		this.handleKeyup = this.handleKeyup.bind(this);
 		
-		window.addEventListener('keyup', this.setDirection.bind(this));
+		window.addEventListener('keyup', this.handleKeyup);
 
 
 		window.addEventListener('touchstart', this.listenForTouch.bind(this));

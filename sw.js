@@ -1,5 +1,5 @@
 const CACHENAMES = {
-	CODE: 'v1.2'
+	CODE: 'v1.3'
 };
 
 self.addEventListener('install', event => {
